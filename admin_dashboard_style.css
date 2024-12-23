@@ -1,0 +1,217 @@
+/* Estilos básicos */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+.dashboard-container {
+  display: flex;
+  transition: all 0.3s ease;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background-color: #333;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  transition: all 0.3s ease;
+  padding-top: 20px;
+  color: white;
+}
+
+.sidebar.active {
+  left: -250px;
+}
+
+.logo-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.logo {
+  width: 100px;
+  height: auto;
+}
+
+.nav-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.nav-list li {
+  margin: 10px 0;
+}
+
+.nav-list a {
+  text-decoration: none;
+  color: white;
+  font-size: 18px;
+  padding: 10px;
+  display: block;
+  background-color: #444;
+  border-radius: 5px;
+}
+
+.nav-list a:hover {
+  background-color: #555;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  margin-left: 250px;
+  transition: all 0.3s ease;
+}
+
+.sidebar.active + .main-content {
+  margin-left: 0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #444;
+  color: white;
+}
+
+.header h1 {
+  margin: 0;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.user-info span {
+  margin-right: 10px;
+}
+
+/* Cards */
+.cards {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.card {
+  background-color: white;
+  border-radius: 5px;
+  padding: 20px;
+  margin: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  min-width: 300px;
+}
+
+.card h3 {
+  margin-top: 0;
+}
+
+/* Hamburger Menu (3 Traços) */
+#hamburgerMenu {
+  display: block;
+  cursor: pointer;
+  font-size: 30px;
+  color: #444;
+  padding: 10px;
+  background-color: transparent;
+  border: none;
+}
+
+#hamburgerMenu span {
+  display: block;
+  background-color: #444;
+  height: 4px;
+  width: 30px;
+  margin: 6px 0;
+}
+
+/* Mostrar o menu hamburguer quando a sidebar está oculta */
+.sidebar.active + .main-content #hamburgerMenu {
+  display: block;
+}
+
+/* Seção de categorias e gráficos */
+section {
+  padding: 20px;
+}
+
+/* Botões */
+button {
+  padding: 10px 20px;
+  background-color: #ff5722; /* Laranja */
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #e64a19; /* Laranja mais escuro */
+}
+
+/* Gráficos */
+canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Personalização dos gráficos de vendas */
+#totalSalesChart,
+#vendedorSalesChart {
+  max-height: 400px;
+  margin-top: 20px;
+}
+
+/* Barra de pesquisa */
+.search-container {
+  display: none;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 5px 10px;
+  width: 200px;
+}
+
+.search-container input {
+  border: none;
+  padding: 5px;
+  width: 100%;
+}
+
+.search-container #closeSearch {
+  cursor: pointer;
+  margin-left: 10px;
+  font-size: 18px;
+  color: #333;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 200px;
+  }
+
+  .main-content {
+    margin-left: 200px;
+  }
+
+  .sidebar.active + .main-content {
+    margin-left: 0;
+  }
+
+  .cards {
+    flex-direction: column;
+  }
+
+  .card {
+    margin: 10px 0;
+  }
+}

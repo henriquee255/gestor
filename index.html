@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - FS CELULARES</title>
+    <link rel="stylesheet" href="login_style.css" />
+  </head>
+  <body>
+    <div class="login-container">
+      <div class="login-header">
+        <img src="FS IMG.jpg" FS CELULARES class="logo" />
+        <h1>FS CELULARES</h1>
+      </div>
+      <form id="loginForm" class="login-form" onsubmit="login(event)">
+        <div class="input-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            placeholder="Digite seu email"
+            required
+          />
+        </div>
+        <div class="input-group">
+          <label for="password">Senha</label>
+          <input
+            type="password"
+            id="password"
+            placeholder="Digite sua senha"
+            required
+          />
+        </div>
+        <button type="submit">Entrar</button>
+        <p class="forgot-password"><a href="#">Esqueceu sua senha?</a></p>
+      </form>
+    </div>
+
+    <script>
+      // Definição dos dados de login
+      const users = {
+        "eu.henriquee2501@gmail.com": {
+          role: "admin",
+          password: "eu.henriquee2501@gmail.com",
+          name: "Administrador",
+        },
+        "shirley@example.com": {
+          role: "admin",
+          password: "shirley123",
+          name: "Shirley",
+        },
+        "fabio@example.com": {
+          role: "admin",
+          password: "fabio123",
+          name: "Fabio",
+        },
+        "sara@example.com": {
+          role: "vendedor",
+          password: "sara123",
+          name: "Vendedor",
+        },
+        "sabrina@example.com": {
+          role: "vendedor",
+          password: "sabrina123",
+          name: "Vendedor",
+        },
+        "thayna@example.com": {
+          role: "vendedor",
+          password: "thayna123",
+          name: "Vendedor",
+        },
+        "henrique@example.com": {
+          role: "vendedor",
+          password: "henrique123",
+          name: "Vendedor",
+        },
+      };
+
+      // Função de login
+      function login(event) {
+        event.preventDefault(); // Impede o envio do formulário e recarregamento da página
+
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        // Verifica as credenciais e perfil do usuário
+        if (users[email] && users[email].password === password) {
+          const user = users[email];
+
+          alert(`Login bem-sucedido! Bem-vindo, ${user.name}`);
+
+          // Armazena os dados do usuário no sessionStorage
+          sessionStorage.setItem("auth", true);
+          sessionStorage.setItem("role", user.role); // Armazena o papel do usuário
+          sessionStorage.setItem("name", user.name); // Armazena o nome do usuário
+
+          // Redireciona para o painel adequado com base no perfil
+          if (user.role === "admin") {
+            window.location.href = "admin_dashboard_index.html"; // Redireciona para o dashboard do admin
+          } else if (user.role === "vendedor") {
+            window.location.href = "vendedor_dashboard_index.html"; // Redireciona para o dashboard do vendedor
+          }
+        } else {
+          alert("Email ou senha incorretos!");
+        }
+      }
+    </script>
+
+    <script src="login.js"></script>
+  </body>
+</html>

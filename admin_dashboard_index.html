@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Painel Admin - FS CELULARES</title>
+    <link rel="stylesheet" href="admin_dashboard_style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div class="dashboard-container">
+      <!-- Sidebar -->
+      <div id="sidebar" class="sidebar">
+        <div class="logo-container" id="logoContainer">
+          <img src="FS IMG.jpg" alt="Logo FS CELULARES" class="logo" />
+          <h2>Admin Panel</h2>
+        </div>
+        <ul class="nav-list">
+          <li>
+            <a href="#" id="dashboardLink" onclick="showPage('dashboard')"
+              >Dashboard</a
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              id="userManagementLink"
+              onclick="showPage('userManagement')"
+              >Gerenciar Usuários</a
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              id="productManagementLink"
+              onclick="showPage('productManagement')"
+              >Gerenciar Produtos</a
+            >
+          </li>
+          <li>
+            <a
+              href="#"
+              id="clientManagementLink"
+              onclick="showPage('clientManagement')"
+              >Gerenciar Clientes</a
+            >
+          </li>
+          <li>
+            <a href="#" id="salesLink" onclick="showPage('sales')">Vendas</a>
+          </li>
+          <li>
+            <a href="#" id="settingsLink" onclick="showPage('settings')"
+              >Configurações</a
+            >
+          </li>
+        </ul>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <header class="header">
+          <div id="hamburgerMenu" onclick="toggleSidebar()">
+            <span>&#9776;</span>
+          </div>
+          <h1>Bem-vindo ao Painel de Admin</h1>
+          <div class="user-info">
+            <span>Olá, <span id="userName"></span>!</span>
+            <button onclick="logout()">Sair</button>
+          </div>
+          <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Buscar..." />
+            <span id="closeSearch" onclick="closeSearch()">X</span>
+          </div>
+        </header>
+        <div class="content">
+          <section id="dashboard" class="section">
+            <h2>Visão Geral</h2>
+            <div class="cards">
+              <div class="card">
+                <h3>Vendas Totais</h3>
+                <canvas id="totalSalesChart"></canvas>
+              </div>
+              <div class="card">
+                <h3>Vendas de cada Vendedor</h3>
+                <select id="vendedorSelect" onchange="updateSalesChart()">
+                  <option value="sara">Sara</option>
+                  <option value="sabrina">Sabrina</option>
+                  <option value="thayna">Thayna</option>
+                  <option value="henrique">Henrique</option>
+                </select>
+                <canvas id="vendedorSalesChart"></canvas>
+              </div>
+            </div>
+          </section>
+          <section id="userManagement" class="section">
+            <h2>Gerenciar Usuários</h2>
+            <button onclick="addUser()">Adicionar Usuário</button>
+            <div id="userList"></div>
+          </section>
+          <section id="productManagement" class="section">
+            <h2>Gerenciar Produtos</h2>
+            <button onclick="addProduct()">Adicionar Produto</button>
+            <div id="productList"></div>
+          </section>
+          <section id="clientManagement" class="section">
+            <h2>Gerenciar Clientes</h2>
+            <button onclick="addClient()">Adicionar Cliente</button>
+            <div id="clientList"></div>
+          </section>
+          <section id="sales" class="section">
+            <h2>Vendas</h2>
+            <p>Detalhes sobre as vendas do mês.</p>
+          </section>
+          <section id="settings" class="section">
+            <h2>Configurações</h2>
+            <p>Alterar configurações do sistema.</p>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Função para mostrar os gráficos de vendas totais e por vendedor
+      function showSalesCharts() {
+        const totalSalesCanvas = document.getElementById("totalSalesChart");
+        const vendedorSalesCanvas =
+          document.getElementById("vendedorSalesChart");
+
+        if (totalSalesCanvas && vendedorSalesCanvas) {
+          const ctxTotalSales = totalSalesCanvas.getContext("2d");
+          const totalSalesChart = new Chart(ctxTotalSales, {
+            type: "line",
+            data: {
+              labels: ["Jan", "Feb", "Mar", "Apr", "May"],
+              datasets: [
+                {
+                  label: "Vendas Totais",
+                  data: [500, 600, 700, 800, 900], // Dados de exemplo
+                  borderColor: "rgba(75, 192, 192, 1)",
+                  fill: false,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              scales: {
+                y: {
+                  beginAtZero: true,
+                },
+              },
+            },
+          });
+
+          // Gráfico de vendas por vendedor
+          const ctxVendedorSales = vendedorSalesCanvas.getContext("2d");
+          const vendedorSalesChart = new Chart(ctxVendedorSales, {
+            type: "line",
+            data: {
+              labels: ["Jan", "Feb", "Mar", "Apr", "May"],
+              datasets: [
+                {
+                  label: "Sara",
+                  data: [50, 60, 70, 80, 90],
+                  borderColor: "rgba(255, 99, 132, 1)",
+                  fill: false,
+                },
+                {
+                  label: "Sabrina",
+                  data: [40, 50, 60, 70, 80],
+                  borderColor: "rgba(54, 162, 235, 1)",
+                  fill: false,
+                },
+                {
+                  label: "Thayna",
+                  data: [30, 40, 50, 60, 70],
+                  borderColor: "rgba(153, 102, 255, 1)",
+                  fill: false,
+                },
+                {
+                  label: "Henrique",
+                  data: [20, 30, 40, 50, 60],
+                  borderColor: "rgba(255, 159, 64, 1)",
+                  fill: false,
+                },
+              ],
+            },
+            options: {
+              responsive: true,
+              scales: {
+                y: {
+                  beginAtZero: true,
+                },
+              },
+            },
+          });
+        }
+      }
+
+      // Função para adicionar um novo usuário
+      function addUser() {
+        const email = prompt("Digite o e-mail do novo usuário:");
+        const password = prompt("Digite a senha do novo usuário:");
+        if (email && password) {
+          users[email] = { email, password, role: "admin", name: email };
+          alert("Usuário adicionado com sucesso!");
+          loadUserList();
+        } else {
+          alert("Por favor, preencha todos os campos.");
+        }
+      }
+
+      // Função para carregar a lista de usuários
+      function loadUserList() {
+        const userList = document.getElementById("userList");
+        userList.innerHTML = ""; // Limpa a lista antes de carregar novamente
+        for (const user in users) {
+          const li = document.createElement("li");
+          li.textContent = `${users[user].name} - ${users[user].email}`;
+          userList.appendChild(li);
+        }
+      }
+
+      // Função para gerenciar categorias (mock)
+      function manageCategories() {
+        alert("Função de gerenciamento de categorias (em desenvolvimento).");
+      }
+
+      // Função para logout
+      function logout() {
+        sessionStorage.removeItem("auth");
+        window.location.href = "index.html"; // Redireciona para a página de login
+      }
+
+      // Função para mostrar a página correspondente
+      function showPage(page) {
+        const pages = document.querySelectorAll(".section");
+        pages.forEach((p) => p.classList.remove("active"));
+        document.getElementById(page).classList.add("active");
+      }
+
+      // Função para abrir e fechar a barra de pesquisa
+      function openSearch() {
+        document.querySelector(".search-container").style.display = "flex";
+      }
+
+      function closeSearch() {
+        document.querySelector(".search-container").style.display = "none";
+      }
+
+      // Inicializar a página com a visualização do painel de métricas
+      document.addEventListener("DOMContentLoaded", () => {
+        loadUserList();
+        showPage("dashboard");
+        showSalesCharts(); // Chama a função para mostrar os gráficos
+
+        const logoutButton = document.querySelector(".user-info button");
+        logoutButton.addEventListener("click", logout); // Vincula o evento de logout ao botão da hotbar
+      });
+    </script>
+    <script src="admin.js"></script>
+  </body>
+</html>

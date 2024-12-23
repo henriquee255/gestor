@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Painel de Vendedor</title>
+    <link rel="stylesheet" href="vendedor_dashboard_style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.jsdelivr"></script>
+  </head>
+  <body>
+    <div class="dashboard-container">
+      <!-- Sidebar -->
+      <div id="sidebar" class="sidebar">
+        <div class="logo-container">
+          <img src="fs_img_trans.png" alt="Logo FS CELULARES" class="logo" />
+          <h2>Painel</h2>
+        </div>
+        <ul class="nav-list" id="navList">
+          <li>
+            <a href="#" onclick="showPage('generalSales')">Vendas Gerais</a>
+          </li>
+          <li><a href="#" onclick="showPage('userSales')">Minhas Vendas</a></li>
+          <li>
+            <a href="#" onclick="showPage('profileSettings')"
+              >Configurações do Perfil</a
+            >
+          </li>
+          <li>
+            <a href="#" onclick="showPage('clientManagement')"
+              >Gerenciar Clientes</a
+            >
+          </li>
+        </ul>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <header class="header">
+          <div id="hamburgerMenu" onclick="toggleSidebar()">
+            <span>&#9776;</span>
+          </div>
+          <h1 id="headerTitle">Bem-vindo ao Painel de Vendedor</h1>
+          <div class="user-info">
+            <span>Olá, <span id="userName"></span>!</span>
+            <button onclick="logout()">Sair</button>
+          </div>
+        </header>
+        <div class="content">
+          <!-- Vendas Gerais -->
+          <section id="generalSales" class="section">
+            <h2>Vendas Gerais</h2>
+            <canvas id="generalSalesChart"></canvas>
+          </section>
+          <!-- Minhas Vendas -->
+          <section id="userSales" class="section">
+            <h2>Minhas Vendas</h2>
+            <h3>Vendas do Dia</h3>
+            <canvas id="userSalesDayChart"></canvas>
+            <h3>Últimos 7 Dias</h3>
+            <canvas id="userSalesWeekChart"></canvas>
+            <h3>Últimos 30 Dias</h3>
+            <canvas id="userSalesMonthChart"></canvas>
+          </section>
+          <!-- Configurações do Perfil -->
+          <section id="profileSettings" class="section">
+            <h2>Configurações do Perfil</h2>
+            <p>Edite suas configurações aqui.</p>
+          </section>
+          <!-- Gerenciar Clientes -->
+          <section id="clientManagement" class="section">
+            <h2>Gerenciar Clientes</h2>
+            <p>Gerencie os clientes aqui.</p>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Definição dos dados de login para vendedores
+      const users = {
+        "sara@example.com": {
+          role: "vendedor",
+          password: "sara123",
+          name: "Sara",
+        },
+        "sabrina@example.com": {
+          role: "vendedor",
+          password: "sabrina123",
+          name: "Sabrina",
+        },
+        "thayna@example.com": {
+          role: "vendedor",
+          password: "thayna123",
+          name: "Thayna",
+        },
+        "henrique@example.com": {
+          role: "vendedor",
+          password: "henrique123",
+          name: "Henrique",
+        },
+      };
+
+      // Recuperando o nome do usuário do sessionStorage e exibindo-o
+      document.addEventListener("DOMContentLoaded", function () {
+        const userName = sessionStorage.getItem("name");
+        if (userName) {
+          document.getElementById("userName").textContent = userName;
+        } else {
+          window.location.href = "index.html"; // Redireciona para login se não autenticado
+        }
+      });
+
+      // Função para logout
+      function logout() {
+        sessionStorage.clear(); // Limpa os dados do sessionStorage
+        window.location.href = "index.html"; // Redireciona para a página de login
+      }
+
+      // Função para mostrar as seções
+      function showPage(pageId) {
+        const sections = document.querySelectorAll(".section");
+        sections.forEach((section) => {
+          section.style.display = "none";
+        });
+        document.getElementById(pageId).style.display = "block";
+      }
+
+      // Inicia o painel mostrando a seção de vendas gerais
+      showPage("generalSales");
+    </script>
+    <script src="vendedor.js"></script>
+  </body>
+</html>
